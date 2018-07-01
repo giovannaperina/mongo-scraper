@@ -36,7 +36,7 @@
                                 <a href="saved-articles.html"><button> Saved Articles</button></a>
                             </div>
                             <div class="button-scrape main-button">
-                                <button> Scrape Articles</button>
+                                <button type="submit" id="scrapeArticle"> Scrape Articles</button>
                             </div>
                         </div>
                     </div>
@@ -44,8 +44,8 @@
             </div>
         </section>
         <section class="scrape container">
-            <div class="row">
-                <div class="col-md-4">
+            <div class="row" id="mediumTitle">
+                <!-- <div class="col-md-4">
                     <div class="scrape-container">
                         <div class="scrape-image">
                             <img src="assets/images/headerBack.jpg"/>
@@ -59,6 +59,31 @@
                             </div>
                             <div class="scrape-description">
                                 <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus itaque nesciunt explicabo suscipit voluptatem officia reiciendis qui, iure quisquam tenetur?</p>
+                            </div>
+                            <div class="scrape-author">
+                                <img src="assets/images/user.png"/>
+                                <p>by <span>Giovanna Perina </span></p>
+                            </div>
+                        </div>
+                        <div class="scrape-favorite main-button">
+                            <button class="save-article-btn" id="saveArticle">Save Article</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="scrape-container">
+                        <div class="scrape-image">
+                            <img src="assets/images/headerBack.jpg"/>
+                            <div class="overlay-date">
+                                <p>19 March</p>
+                            </div>
+                        </div>
+                        <div class="scrape-information">
+                            <div class="scrape-title">
+                                <h5>Medium title here</h5>
+                            </div>
+                            <div class="scrape-description">
+                                <p>lorem10 orem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus itaque nesciunt explicabo suscipit voluptatem officia reiciendis qui, iure quisquam tenetur?</p>
                             </div>
                             <div class="scrape-author">
                                 <img src="assets/images/user.png"/>
@@ -94,32 +119,7 @@
                             <button class="save-article-btn">Save Article</button>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="scrape-container">
-                        <div class="scrape-image">
-                            <img src="assets/images/headerBack.jpg"/>
-                            <div class="overlay-date">
-                                <p>19 March</p>
-                            </div>
-                        </div>
-                        <div class="scrape-information">
-                            <div class="scrape-title">
-                                <h5>Medium title here</h5>
-                            </div>
-                            <div class="scrape-description">
-                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus itaque nesciunt explicabo suscipit voluptatem officia reiciendis qui, iure quisquam tenetur?</p>
-                            </div>
-                            <div class="scrape-author">
-                                <img src="assets/images/user.png"/>
-                                <p>by <span>Giovanna Perina </span></p>
-                            </div>
-                        </div>
-                        <div class="scrape-favorite main-button">
-                            <button class="save-article-btn">Save Article</button>
-                        </div>
-                    </div>
-                </div>
+                </div> -->
             </div>
         </section>
     </div> <!--Wrapper end here-->
@@ -141,10 +141,9 @@
     </footer>
 
 
-
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="assets/js/particles.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="assets/js/app.js"></script>
 </body>
 </html>
