@@ -21,7 +21,10 @@ mongoose.connect("mongodb://localhost/mediumScraper");
 
 // Routes
 const routes = require("./routing/routes.js");
+const htmlRoutes = require("./routing/htmlRoutes.js");
 app.use(routes);
+app.use(htmlRoutes);
+
 
 // Start the server
 app.listen(PORT, function() {

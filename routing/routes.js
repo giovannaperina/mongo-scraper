@@ -24,8 +24,8 @@ router.get("/scrape", function(req, res) {
           });
         });
         $(".postMetaInline ").each(function (i, element) {
-          var authorName = $(element).children("a").text(); //get the title
-          var authorURL = $(element).children("a").attr("href") //get the link
+          var authorName = $(element).children("a").text(); //get the authorName
+          var authorURL = $(element).children("a").attr("href") //get the authorURL
 
           results.push({
             authorName: authorName,
@@ -59,7 +59,6 @@ router.get("/scrape", function(req, res) {
             return res.json(err);
           });
       });
-      res.send("Scrape Complete");
 });
 
 router.get("/articles", function(req, res) {
@@ -72,40 +71,27 @@ router.get("/articles", function(req, res) {
     });
 });
 
-router.get("/articles/:id", function(req, res) {
-    db.article.findOne({ _id: req.params.id })
-      .populate("note")
-      .then(function(dbArticle) {
-        res.json(dbArticle);
-      })
-      .catch(function(err) {
-        res.json(err);
-    });
-});
-
-router.get("/saved", function(req, res) {
+router.get("/articles/saved", function(req, res) { 
     db.article.find({ savedArticle: true })
       .then(function(dbArticle) {
-        res.json(dbArticle);
+        res.json(dbArticle); // 
+    
       })
       .catch(function(err) {
         res.json(err);
     });
 });
 
-router.put("/delete/:id", function(req, res) {
-    db.article.findByIdAndUpdate({ _id: req.params.id }, { $set: { savedArticle: false }})
-      .then(function(dbArticle) {
-        res.json(dbArticle);
-      })
-      .catch(function(err) {
-        res.json(err);
-      });
-  });
-
-
-
-
+router.post("/articles/:id", function(req, res) {
   
+    db.article.findOneAndUpdate(req.params.id, { savedArticle: true }, { new: true }, (err, article) => {
+      if(err) return res.status(500).json({ msg: 'error...' });
+      res.json(article); 
+    });
+
+});
+
+
+
 // Export routes for server.js to use.
 module.exports = router;

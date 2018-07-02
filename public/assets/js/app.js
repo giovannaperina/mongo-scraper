@@ -6,18 +6,27 @@ jQuery(document).ready(function($) {
   });
 
     $('body').on('click', ".save-article-btn", function() {
-        const savedArticles = {};
-        savedArticles.saved = true;
-      $.ajax({
-            method: "POST",
-            url: "/saved",
-            data: savedArticles
-        }).then(function(){
-            swal("Success", "The Medium Articles has been added!", "success") 
-        })    
-    });
+        const buttonSave = {};
+        const articleId = $(this).data("id"); 
 
-  
+        buttonSave.id = articleId
+        buttonSave.savedArticle = true;
+
+
+      $.ajax({
+            method: "POST", 
+            url: "/articles/" + articleId,
+            data: buttonSave
+        }).then(function(){
+            swal("Hey! ", "You successfully added a new article!", "success");
+            renderSavedArticles();
+
+        }).catch(err => {
+          console.log(err);
+
+        });
+    }); 
+
 
     $.ajax({ 
 
@@ -34,12 +43,13 @@ jQuery(document).ready(function($) {
   const renderArticles = (data) => {
     console.log(data)
     for(let i = 0; i < data.length; i++) {
+      const articleId = data[i]['_id'];  
       const title = data[i].title;
       const link = data[i].link;
       const summary = data[i].summary;
       const authorName = data[i].authorName;
-    //   const authorURL = data[i].authorURL;
-    //   const authorImage = data[i].authorImage;
+      const authorURL = data[i].authorURL;
+      const authorImage = data[i].authorImage;
       const date = data[i].date;
 
       const articleBlock = `
@@ -59,12 +69,12 @@ jQuery(document).ready(function($) {
                       <p>${summary}</p>
                   </div>
                   <div class="scrape-author">
-                      <img src=""/>
-                      <a href="" ><p>by <span> ${authorName}</span></p></a>
+                      <img src="${authorImage}"/>
+                      <a href="${authorURL}" ><p>by <span> ${authorName}</span></p></a>
                   </div>
               </div>
               <div class="scrape-favorite main-button">
-                  <button class="save-article-btn">Save Article</button>
+                  <button class="save-article-btn" data-id="${articleId}" >Save Article</button>
               </div>
           </div>
       </div>
@@ -78,7 +88,7 @@ jQuery(document).ready(function($) {
             event.preventDefault();
             $.get("/scrape").then(function() {
                 swal("Success", "The Medium Articles has been added!", "success") 
-            .then((articles) => {
+            .then(() => {
                 window.location.reload();
 
                 });         
