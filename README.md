@@ -1,6 +1,6 @@
 # Medium Mongo Scraper 
 
-Medium Mongo Scraper is an application that web-scrapes articles data from [Medium](medium.com) allowing the user to save articles and comment about what they have read.
+Medium Mongo Scraper is an application that web-scrapes articles data from [Medium](https://medium.com/topic/programming) allowing the user to save articles and comment about what they have read.
 
 Please check out the launched app on Heroku [Here](http://majestic-bryce-canyon-84060.herokuapp.com/)!
 
