@@ -14,6 +14,7 @@ const app = express();
 
 app.use(logger("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(express.static("public"));
 
 // Mongo DB

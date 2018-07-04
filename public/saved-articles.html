@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
     <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css" />
+    
     <link rel="shortcut icon" type="image/png" href="assets/images/logo1.png" width="16">
 </head>
 <body>
@@ -52,8 +54,8 @@
             <ul>
                 <a href=""><li>About</li></a>
                 <a href="/saved"><li>Saved Articles</li></a>
-                <a href=""><li>Medium</li></a>
-                <a href=""><li>ParticlesJs</li></a>
+                <a href="https://medium.com/topic/programming" target="_blank"><li>Medium</li></a>
+                <a href="https://vincentgarreau.com/particles.js/" target="_blank"><li>ParticlesJs</li></a>
             </ul>
         </div>
         <div class="copy">
@@ -70,18 +72,22 @@
                 <h4 class="modal-title" id="myModalLabel">Notes</h4>
             </div>
             <div class="modal-body">
-                <div class="panel panel-default" id="savedNote">
-                    <div class="panel-body">
+                <div class="panel">
+                    <div class="panel-body" id="note-passholder">
                         <p>No notes for this article yet.</p>
                     </div>
                 </div>
+                <div id="allNotes">
+                    <!-- All Notes goes here -->
+                </div>
                 <div class="addNote">
                     <textarea class="form-control" placeholder="New Note"></textarea>
+                    <input type="hidden" id="article_id" />
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn-save btn-default btn" >Save Note</button>
+                <button type="button" class="btn-save btn-default btn"id="saveNote" >Save Note</button>
             </div>
             </div>
         </div>
@@ -93,6 +99,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="assets/js/particles.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="assets/js/moment.js"></script>
     <script src="assets/js/app.js"></script>
 </body>

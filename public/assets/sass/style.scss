@@ -276,11 +276,24 @@ body {
     }
     .modal-body {
         text-align: center;
+    
+        .panel-body {
+            position: relative;
+            i {
+                color: #f00000;
+                font-size: 30px;
+                position: absolute;
+                top:25%;
+                right: 15px;
+                cursor: pointer;
+
+            }
+        }
     }
     .modal-footer {
         .btn-save {
              background: $mainColor;
-             color: #333;
+             color: #fafafa;
         }
     }
 }

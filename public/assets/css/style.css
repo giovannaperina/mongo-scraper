@@ -181,9 +181,18 @@ body {
 
 .modal .modal-body {
   text-align: center; }
+  .modal .modal-body .panel-body {
+    position: relative; }
+    .modal .modal-body .panel-body i {
+      color: #f00000;
+      font-size: 30px;
+      position: absolute;
+      top: 25%;
+      right: 15px;
+      cursor: pointer; }
 
 .modal .modal-footer .btn-save {
   background: #389B61;
-  color: #333; }
+  color: #fafafa; }
 
 /*# sourceMappingURL=style.css.map */

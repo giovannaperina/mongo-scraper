@@ -39,7 +39,7 @@ jQuery(document).ready(function($) {
             url: "/articles/delete/" + mongoId,
             data: buttonSave
         }).then(function(){
-            swal("Hey! ", "You successfully removed the article!", "success")
+            swal("Hey! ", "You successfully removed the article!", "warning")
             .then(function(){
                 window.location.reload();
             }) 
@@ -96,7 +96,7 @@ jQuery(document).ready(function($) {
                       </div>
                   </div>
                   <div class="scrape-favorite main-button">
-                        <button type="button" data-toggle="modal" class="main-button  pull-left" data-target="#myModal">Article Notes</button>
+                        <button type="button" data-toggle="modal" class="main-button btn-open-notes pull-left" data-id="${mongoId}">Article Notes</button>
                         <button class="remove-article-btn" data-id="${mongoId}" >Remove Article</button>        
                   </div>
               </div>
@@ -165,11 +165,109 @@ jQuery(document).ready(function($) {
     $("#scrapeArticle").click(function(e){
         e.preventDefault();
         $.get("/scrape").then(function(res) {
-            swal("Success", "The Medium Articles has been added!", "success") 
-            .then(() => {
-                window.location.reload();
-            });         
+            if(res.articlesCount) {
+                swal("Success", res.articlesCount + " Medium Articles has been added!", "success") 
+                .then(() => {
+                    window.location.reload();
+                }); 
+            } else {
+                swal("Sorry...", "No articles has been scrape, please check later", "warning") 
+            }       
         });
      });
 });
+
+// Notes 
+
+$('body').on('click', ".btn-open-notes", function(e) {
+    const articleId = e.target.dataset.id;
+
+    // console.log(e.target.dataset.id);
+    $.ajax({ 
+
+        url: `/articles/${articleId}/notes`,
+        method: "GET",
+      }).then(function(notes){
+        $("#allNotes").html("")
+        if(notes.length > 0){
+            $("#note-passholder").hide();
+        } else {
+            $("#note-passholder").show();   
+        }
+
+        notes.map(note => {
+            const notesBlock = `
+            <div class="panel panel-default" >
+                <div class="panel-body" id="note-passholder">
+                    <p>${note.note}</p>
+                    <i class="fas fa-times pull-right delete-note" data-note_id="${note['_id']}"></i>
+                </div> 
+            </div>
+            `
+    
+            $("#allNotes").append(notesBlock);
+        });
+   
+    }).catch(err => {
+        console.log(err);
+    });
+
+    $('#myModal').modal();
+    $('#myModal #article_id').val(articleId);
+})
+
+
+$('body').on('click', "#saveNote", function(e) {
+    const addNotes = {};
+    const articleId = $('#myModal #article_id').val();
+
+    addNotes.article_id = articleId;
+    addNotes.note = $('#myModal textarea').val();
+
+    $.ajax({
+        method: "POST", 
+        url: `/articles/${articleId}/notes`,
+        data: addNotes
+    }).then(function(note){
+        toastr.success('Note has been added!')
+        
+        const notesBlock = `
+        <div class="panel panel-default" >
+            <div class="panel-body" id="note-passholder">
+                <p>${note.note}</p>
+                <i class="fas fa-times pull-right delete-note" data-note_id="${note['_id']}"></i>
+            </div> 
+        </div>
+        `
+
+        $("#allNotes").append(notesBlock);
+        $("#myModal textarea").val("");
+
+   
+    }).catch(err => {
+        console.log(err);
+    });
+}); 
+
+$('body').on('click', ".delete-note", function(e) {
+    const note_id = e.target.dataset.note_id;
+    const $note = $(this).parent().parent();
+
+    console.log(note_id);
+
+    $.ajax({
+        method: "DELETE", 
+        url: `/articles/notes/${note_id}`
+    }).then(function(){
+        toastr.warning('Note has been deleted!')
+        $note.remove();
+    });
+
+});
+
+
+
+
+
+
 

@@ -6,11 +6,20 @@ const cheerio = require("cheerio");
 const router = express.Router();
 
 // Routes
+const returnScrapedArticles = (res, scrapedArticles, results, i) => {
+  if(results.length -1 === i){
+    res.json({
+      articles: scrapedArticles,
+      articlesCount: scrapedArticles.length
+    })
+  }
+}
 
 router.get("/scrape", function(req, res) {
   request("https://medium.com/topic/programming/", function(error, response, html) {
       let $ = cheerio.load(html);
       let results = [];
+      let scrapedArticles = [];
       
       $(".js-topicStream .streamItem--section .u-borderBox .js-sectionItem").each(function (i, element) {
         let title = $(element).find('h3.ui-h3').text();
@@ -52,17 +61,18 @@ router.get("/scrape", function(req, res) {
           if(!article){
             db.article.create(result)
             .then(function(dbArticle) {
-              console.log(dbArticle);
+              // console.log(dbArticle);
+              scrapedArticles.push(dbArticle);
+              returnScrapedArticles(res, scrapedArticles, results, i);
             })
             .catch(function(err) {
               return res.json(err);
             });
+          } else {
+            returnScrapedArticles(res, scrapedArticles, results, i);
           }
         });
-        console.log(results.length, i);
-        if(results.length -1 === i){
-          res.json({msg: "Trollei!"})
-        }
+        
       })
     });
 });
@@ -106,6 +116,32 @@ router.post("/articles/delete/:id", function(req, res) {
       res.json(article); 
     });
 });
+
+router.post("/articles/:id/notes", function(req, res){
+  db.note.create({
+    note: req.body.note,
+    article_id: req.params.id
+  }).then(note => {
+    res.json(note);
+  })
+});
+
+router.get("/articles/:id/notes", function(req, res) {
+  db.note.find({ article_id: req.params.id })
+  .then(notes => {
+    res.json(notes);
+  })
+});
+
+router.delete("/articles/notes/:note_id", function(req, res){
+  db.note.findByIdAndRemove(req.params.note_id)
+  .then(notes => {
+    res.json(notes);
+  })
+});
+
+
+
 
 
 
