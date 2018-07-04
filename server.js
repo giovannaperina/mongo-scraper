@@ -4,8 +4,6 @@ const bodyParser = require("body-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 
-// Require models
-
 
 const PORT = process.env.PORT || 3000;
 
@@ -18,7 +16,13 @@ app.use(bodyParser.json());
 app.use(express.static("public"));
 
 // Mongo DB
-mongoose.connect("mongodb://localhost/mediumScraper");
+var databaseUri = "mongodb://localhost/mediumScraper";
+if (process.env.MONGODB_URI){
+  mongoose.connect(process.env.MONGODB_URI);
+} else {
+  mongoose.connect(databaseUri);
+}
+
 
 // Routes
 const routes = require("./routing/routes.js");
