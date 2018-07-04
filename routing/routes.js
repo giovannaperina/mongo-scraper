@@ -8,58 +8,65 @@ const router = express.Router();
 // Routes
 
 router.get("/scrape", function(req, res) {
-    request("https://medium.com/topic/programming/", function(error, response, html) {
-        var $ = cheerio.load(html);
-        var results = [];
-        
-        $("div.u-flexColumnTop.u-flexWrap ").each(function (i, element) {
-          var title = $(element).children(".u-flex0").children("a").text(); //get the title
-          var link = $(element).children("a").attr("href") //get the link
-          var summary = $(element).children('a').text(); //get the summary
+  request("https://medium.com/topic/programming/", function(error, response, html) {
+      let $ = cheerio.load(html);
+      let results = [];
       
-          results.push({
-            title: title,
-            link: link,
-            summary: summary,
-          });
-        });
-        $(".postMetaInline ").each(function (i, element) {
-          var authorName = $(element).children("a").text(); //get the authorName
-          var authorURL = $(element).children("a").attr("href") //get the authorURL
-
-          results.push({
-            authorName: authorName,
-            authorURL: authorURL
-
-          });
-        });
-
-        $(".ui-caption ").each(function (i, element) {
-          var date = $(element).children("time").attr("datetime");
-
-          results.push({
-            date: date
-          });
-        });
-        $(".avatar ").each(function (i, element) {
-          var authorImage = $(element).children().attr("src");
-          
-          results.push({
-            authorImage: authorImage
-
-          });
-        });
-        console.log(results)
+      $(".js-topicStream .streamItem--section .u-borderBox .js-sectionItem").each(function (i, element) {
+        let title = $(element).find('h3.ui-h3').text();
+        let summary = $(element).find('h4.ui-summary').text();
         
-        db.article.create(results)
-          .then(function(dbArticle) {
-            console.log(dbArticle);
-          })
-          .catch(function(err) {
-            return res.json(err);
-          });
+        let articleImage = $(element).find('a.u-block.u-backgroundSizeCover').attr('style');
+
+        articleImage = "" + articleImage; // make sure it's a string
+        articleImage = articleImage.split('"'); // split string
+        articleImage = articleImage[1]; // getting only the second element
+
+        let articleDate = $(element).find('.ui-caption time').attr('datetime');
+        let articleUrl = $(element).find('h3.ui-h3').parent().attr('href');
+        let articleId = $(element).find('h3.ui-h3').parent().data('post-id');
+
+        let authorName = $(element).find('a.postMetaInline--author').text();
+        let authorUrl = $(element).find('a.postMetaInline--author').attr('href');
+        let authorAvatar = $(element).find('a img.avatar-image').attr('src');
+
+        results.push({
+          title: title,
+          summary: summary, 
+
+          articleImage: articleImage,
+          articleDate: articleDate,
+          articleUrl: articleUrl,
+          articleId: articleId,
+
+          authorName: authorName,
+          authorUrl: authorUrl,
+          authorAvatar: authorAvatar
+ 
+        });
       });
+
+      results.map((result, i) => {
+        db.article.findOne({articleId: result.articleId})
+        .then(function(article){
+          if(!article){
+            db.article.create(result)
+            .then(function(dbArticle) {
+              console.log(dbArticle);
+            })
+            .catch(function(err) {
+              return res.json(err);
+            });
+          }
+        });
+        console.log(results.length, i);
+        if(results.length -1 === i){
+          res.json({msg: "Trollei!"})
+        }
+      })
+    });
 });
+
 
 router.get("/articles", function(req, res) {
     db.article.find({}).sort()
@@ -83,12 +90,21 @@ router.get("/articles/saved", function(req, res) {
 });
 
 router.post("/articles/:id", function(req, res) {
-  
-    db.article.findOneAndUpdate(req.params.id, { savedArticle: true }, { new: true }, (err, article) => {
+  console.log(req.params.id)
+
+    db.article.findByIdAndUpdate(req.params.id, { savedArticle: true }, { new: true }, (err, article) => {
       if(err) return res.status(500).json({ msg: 'error...' });
       res.json(article); 
     });
+});
 
+router.post("/articles/delete/:id", function(req, res) {
+  console.log(req.params.id)
+
+    db.article.findByIdAndUpdate(req.params.id, { savedArticle: false }, { new: true }, (err, article) => {
+      if(err) return res.status(500).json({ msg: 'error...' });
+      res.json(article); 
+    });
 });
 
 

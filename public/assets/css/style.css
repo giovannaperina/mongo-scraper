@@ -5,12 +5,15 @@ body {
   flex-direction: column; }
   body .main-button button {
     border: 3px solid #389B61;
-    border-radius: 10px;
-    padding: 5px 10px;
+    border-radius: 5px;
+    padding: 5px 16px;
     background-color: rgba(0, 0, 0, 0);
     cursor: pointer;
     transition: all 0.3s;
-    font-family: "Roboto", sans-serif; }
+    font-family: "Roboto", sans-serif;
+    font-size: 16px; }
+  body .remove-article-btn {
+    border: 3px solid #9b2826 !important; }
   body .wrapper {
     font-family: "Source Sans Pro", sans-serif;
     flex: 1; }
@@ -58,65 +61,92 @@ body {
         body .wrapper .header .header-image .container .overlay-button .main-button {
           display: inline;
           margin-left: 20px;
-          font-size: 20px;
           font-weight: 600; }
+          body .wrapper .header .header-image .container .overlay-button .main-button button {
+            font-size: 22px; }
         body .wrapper .header .header-image .container .overlay-button .button-scrape button {
           background-color: #389B61; }
           body .wrapper .header .header-image .container .overlay-button .button-scrape button:hover {
             background-color: rgba(0, 0, 0, 0); }
     body .wrapper .scrape {
       margin-top: 50px; }
-      body .wrapper .scrape .scrape-container {
-        background-color: #fff;
-        border-radius: 5px;
-        box-shadow: 0px 0px 8px 0px #fafafa;
-        margin-bottom: 50px; }
-        body .wrapper .scrape .scrape-container .scrape-image {
-          position: relative; }
-          body .wrapper .scrape .scrape-container .scrape-image img {
-            width: 100%; }
-          body .wrapper .scrape .scrape-container .scrape-image .overlay-date {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background-color: #389B61;
-            border-bottom-left-radius: 10px;
-            padding: 2px 8px;
-            font-size: 16px;
-            color: #fff;
-            font-family: "Montserrat"; }
-        body .wrapper .scrape .scrape-container .scrape-information {
-          font-family: "Roboto", sans-serif; }
-          body .wrapper .scrape .scrape-container .scrape-information .scrape-title {
-            padding-left: 20px; }
-            body .wrapper .scrape .scrape-container .scrape-information .scrape-title h5 {
-              height: 50px;
-              font-size: 20px;
-              font-weight: 800; }
-          body .wrapper .scrape .scrape-container .scrape-information .scrape-description {
-            height: 80px;
-            padding-left: 20px;
-            color: #3E4752; }
-          body .wrapper .scrape .scrape-container .scrape-information .scrape-author {
-            padding-left: 20px;
-            border-top: 1px solid rgba(51, 51, 51, 0.475);
-            padding: 10px 20px; }
-            body .wrapper .scrape .scrape-container .scrape-information .scrape-author img {
-              border-radius: 50%;
-              border: solid 1px #49fb35;
-              box-shadow: 0px 0px 10px 2px #49fb35;
-              width: 50px; }
-            body .wrapper .scrape .scrape-container .scrape-information .scrape-author p {
-              display: inline;
-              font-size: 16px; }
-              body .wrapper .scrape .scrape-container .scrape-information .scrape-author p span {
-                color: #389B61;
-                font-weight: 800; }
-        body .wrapper .scrape .scrape-container .scrape-favorite {
-          border-top: 1px solid rgba(51, 51, 51, 0.475);
-          text-align: right;
-          padding: 10px 20px 10px 0;
-          font-size: 18px; }
+      body .wrapper .scrape .row {
+        display: flex;
+        flex-wrap: wrap; }
+        body .wrapper .scrape .row .article-item {
+          display: flex; }
+          body .wrapper .scrape .row .article-item .scrape-container {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 0px 4px 0px #fafafa;
+            margin-bottom: 50px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            padding-bottom: 146px; }
+            body .wrapper .scrape .row .article-item .scrape-container .scrape-image {
+              position: relative; }
+              body .wrapper .scrape .row .article-item .scrape-container .scrape-image a {
+                float: left;
+                width: 100%;
+                height: 200px; }
+              body .wrapper .scrape .row .article-item .scrape-container .scrape-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover; }
+              body .wrapper .scrape .row .article-item .scrape-container .scrape-image .overlay-date {
+                position: absolute;
+                top: 0;
+                right: 0;
+                background-color: #389B61;
+                border-bottom-left-radius: 10px;
+                padding: 2px 8px;
+                font-size: 16px;
+                color: #fff;
+                font-family: "Montserrat"; }
+            body .wrapper .scrape .row .article-item .scrape-container .scrape-information {
+              font-family: "Roboto", sans-serif; }
+              body .wrapper .scrape .row .article-item .scrape-container .scrape-information .scrape-title {
+                padding-left: 20px;
+                margin-bottom: 50px; }
+                body .wrapper .scrape .row .article-item .scrape-container .scrape-information .scrape-title h5 {
+                  height: 50px;
+                  font-size: 18px;
+                  color: #333;
+                  line-height: 27px; }
+              body .wrapper .scrape .row .article-item .scrape-container .scrape-information .scrape-description {
+                padding: 0 20px 0 20px;
+                color: #3E4752;
+                margin: 40px 0 40px 0; }
+                body .wrapper .scrape .row .article-item .scrape-container .scrape-information .scrape-description p {
+                  line-height: 23px; }
+              body .wrapper .scrape .row .article-item .scrape-container .scrape-information .scrape-author {
+                padding-left: 20px;
+                border-top: 1px solid rgba(51, 51, 51, 0.475);
+                padding: 10px 20px;
+                position: absolute;
+                width: 100%;
+                bottom: 60px; }
+                body .wrapper .scrape .row .article-item .scrape-container .scrape-information .scrape-author img {
+                  border-radius: 50%;
+                  border: solid 1px #256a1e;
+                  box-shadow: 0px 0px 10px 2px #216a19;
+                  width: 60px; }
+                body .wrapper .scrape .row .article-item .scrape-container .scrape-information .scrape-author p {
+                  display: inline;
+                  font-size: 16px; }
+                  body .wrapper .scrape .row .article-item .scrape-container .scrape-information .scrape-author p span {
+                    color: #389B61;
+                    font-weight: 800; }
+            body .wrapper .scrape .row .article-item .scrape-container .scrape-favorite {
+              border-top: 1px solid rgba(51, 51, 51, 0.475);
+              text-align: right;
+              padding: 10px 20px 10px 0;
+              font-size: 18px;
+              width: 100%;
+              padding: 10px;
+              position: absolute;
+              bottom: 0; }
   body footer {
     margin-top: 50px;
     padding-top: 20px;
@@ -142,5 +172,18 @@ body {
           padding-top: 3px; }
     body footer .copy {
       padding-bottom: 2px; }
+
+.modal .modal-header {
+  text-align: center; }
+  .modal .modal-header h4 {
+    color: #389B61;
+    font-size: 30px; }
+
+.modal .modal-body {
+  text-align: center; }
+
+.modal .modal-footer .btn-save {
+  background: #389B61;
+  color: #333; }
 
 /*# sourceMappingURL=style.css.map */

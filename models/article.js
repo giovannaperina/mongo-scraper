@@ -7,21 +7,21 @@ var articleSchema = new Schema({
     type: String,
     required: true
   },
+  summary: String,
 
-  link: {
+  articleUrl: {
     type: String,
     required: true
   },
-
-  summary: String,
+  articleImage: String,
+  articleDate: String,
+  articleUrl : String,
+  articleId : String,
 
   authorName: String,
+  authorUrl: String,
+  authorAvatar: String,
 
-  authorURL : String,
-
-  authorImage: String,
-
-  date: String,
 
   note: {
     type: Schema.Types.ObjectId,
